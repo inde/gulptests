@@ -4,7 +4,8 @@ var publicDir = './public/';
 var gulp = require('gulp'),
 	uglify = require('gulp-uglify'),
 	cssmin = require('gulp-cssmin'),
-	plumber = require('gulp-plumber');
+	plumber = require('gulp-plumber'),
+	livereload = require('gulp-livereload');
 
 // Scripts Task
 // Uglifies
@@ -19,12 +20,16 @@ gulp.task('styles', function(){ // scripts command
 	gulp.src( buildDir + 'css/*.css')
 		.pipe( plumber() )/// plumber before
 		.pipe(cssmin())
-		.pipe(gulp.dest( publicDir + '/css'));
+		.pipe(gulp.dest( publicDir + '/css'))
+		.pipe(livereload());
 });
 
 // Watch Task
 // Watches JS
 gulp.task('watch',function(){
+
+	var server = livereload();
+
 	gulp.watch( buildDir + 'js/*.js' , ['scripts']); // watches and updates the js
 	gulp.watch( buildDir + 'css/*.css' , ['styles']); // watches and updates the js
 
